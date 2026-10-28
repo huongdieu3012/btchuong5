@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Tính chỉ số BMI{% endblock %}
+
+{% block styles %}
+<style>
+    /* Màu sắc theo yêu cầu của đề bài */
+    .text-green { color: #2e7d32; }
+    .text-yellow { color: #f57f17; }
+    .text-red { color: #c62828; }
+    
+    .bmi-box {
+        margin-top: 20px;
+        padding: 15px;
+        border-radius: 8px;
+        background: #fff;
+        border: 1px solid var(--border);
+    }
+    .bmi-box h3 { margin: 0 0 10px 0; }
+    .bmi-box p { margin: 5px 0; font-size: 16px; }
+</style>
+{% endblock %}
+
+{% block content %}
+<h2>Tính chỉ số BMI</h2>
+
+<div class="item">
+    <form method="post" action="{{ url_for('bmi') }}" novalidate>
+        <div class="calc-row">
+            <div class="calc-field {{ 'has-error' if errors.cao }}">
+                <label for="cao">Chiều cao (cm)</label>
+                <input type="text" inputmode="decimal" id="cao" name="cao" value="{{ form.cao }}">
+                {% if errors.cao %}<span class="error">{{ errors.cao }}</span>{% endif %}
+            </div>
+
+            <div class="calc-field {{ 'has-error' if errors.nang }}">
+                <label for="nang">Cân nặng (kg)</label>
+                <input type="text" inputmode="decimal" id="nang" name="nang" value="{{ form.nang }}">
+                {% if errors.nang %}<span class="error">{{ errors.nang }}</span>{% endif %}
+            </div>
+        </div>
+
+        <button type="submit" class="calc-btn">Tính BMI</button>
+    </form>
+
+    {% if result %}
+    <div class="bmi-box">
+        <h3 class="{{ result.color_class }}">{{ result.bmi }} - {{ result.status }}</h3>
+        <p>Cân nặng nên có (chuẩn Châu Á): <strong>{{ result.min_nang }} - {{ result.max_nang }} kg</strong></p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

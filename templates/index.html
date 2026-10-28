@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Trang chủ{% endblock %}
+
+{% block content %}
+<h2>Chào mừng đến với {{ shop.name }}!</h2>
+<p>Không gian cà phê thơ mộng bên dòng sông Hương.</p>
+
+<h3>Món nổi bật</h3>
+{% for item in menu[:3] %}
+<div class="item">
+    <h4>{{ item.name }}</h4>
+    <p>Giá: {{ "{:,.0f}".format(item.price) }} VNĐ</p>
+</div>
+{% endfor %}
+{% endblock %}

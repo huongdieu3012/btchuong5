@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% from "_macros.html" import item_card, pagination %}
+
+{% block title %}Thực đơn{% endblock %}
+
+{% block styles %}
+<style>
+    .pagination {
+        text-align: center;
+        margin: 25px;
+    }
+
+    .pagination a,
+    .pagination strong {
+        margin: 0 8px;
+    }
+
+    .pagination a {
+        color: #176b4d;
+        text-decoration: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<h2>Thực đơn</h2>
+
+{% for item in menu %}
+    {{ item_card(item) }}
+{% endfor %}
+
+{{ pagination(page, pages, "menu") }}
+{% endblock %}

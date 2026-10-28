@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Liên hệ{% endblock %}
+
+{% block content %}
+<h2>Thông tin liên hệ</h2>
+<div class="item">
+    <p>Tên quán: {{ shop.name }}</p>
+    <p>Địa chỉ: {{ shop.address }}</p>
+    <p>Điện thoại: {{ shop.phone }}</p>
+</div>
+{% endblock %}

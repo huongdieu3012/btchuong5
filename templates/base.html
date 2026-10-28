@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Trang chủ{% endblock %} - {{ shop.name }}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #6f4e37;       
+            --primary-dark: #4a2f22;  
+            --accent: #e6cfae;       
+            --bg: #f5ede3;            
+            --card: #fffdf9;          
+            --text: #3b2a20;         
+            --border: #e0d0bd;       
+            --error: #c62828;         
+
+            --font-body: "Be Vietnam Pro", "Segoe UI", Arial, sans-serif;
+            --font-heading: "Playfair Display", Georgia, serif;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-body);
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-heading);
+        }
+
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0 0 8px;
+        }
+
+        nav a {
+            color: var(--accent);
+            margin: 0 12px;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+            min-height: 300px;
+        }
+
+        .item {
+            background: var(--card);
+            padding: 16px;
+            margin: 12px 0;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 12px rgba(59, 42, 32, 0.08);
+        }
+
+        footer {
+            background: var(--primary-dark);
+            color: var(--accent);
+            text-align: center;
+            padding: 18px;
+        }
+
+        /* ====== Form (máy tính, tính điểm) ====== */
+        .calc-row {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            align-items: flex-start;
+        }
+
+        .calc-field {
+            display: flex;
+            flex-direction: column;
+            min-width: 150px;
+        }
+
+        .calc-field label {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .calc-field input,
+        .calc-field select {
+            padding: 8px 10px;
+            font-size: 16px;
+            font-family: var(--font-body);
+            color: var(--text);
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        /* .calc-field input:focus,
+        .calc-field select:focus {
+            outline: 2px solid var(--primary);
+            border-color: var(--primary);
+        } */
+
+        .calc-field.has-error input,
+        .calc-field.has-error select {
+            border-color: var(--error);
+        }
+
+        .error {
+            color: var(--error);
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        .calc-btn {
+            margin-top: 16px;
+            padding: 10px 24px;
+            font-size: 16px;
+            font-family: var(--font-body);
+            font-weight: 500;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .calc-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* ====== Phân trang (thực đơn) ====== */
+        .pagination {
+            text-align: center;
+            margin: 25px;
+        }
+
+        .pagination a,
+        .pagination strong {
+            margin: 0 8px;
+        }
+
+        .pagination a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .pagination a:hover {
+            text-decoration: underline;
+        }
+        /* ====== Khung bong bóng nổi lên khi Tab vào hoặc đưa chuột vào ====== */
+
+/* để khung của link menu bo tròn thành viên thuốc */
+nav a {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 999px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.pagination a {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 999px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.calc-btn,
+.calc-field input,
+.calc-field select {
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* bỏ viền mặc định của trình duyệt */
+a:focus,
+button:focus,
+input:focus,
+select:focus {
+    outline: none;
+}
+
+/* khung nổi lên: dùng bàn phím (Tab) hoặc đưa chuột vào */
+a:focus-visible,   a:hover,
+button:focus-visible,   button:hover,
+input:focus-visible,   input:hover,
+select:focus-visible,   select:hover {
+    border-radius: 999px;
+    transform: translateY(-2px) scale(1.04);
+    box-shadow:
+        0 0 0 3px var(--card),
+        0 0 0 6px var(--primary),
+        0 10px 22px rgba(59, 42, 32, 0.28);
+    animation: pop 0.25s ease;
+}
+
+/* link trong thanh menu nằm trên nền nâu nên đổi khung sang màu kem */
+nav a:focus-visible,
+nav a:hover {
+    background: rgba(255, 255, 255, 0.18);
+    color: white;
+    text-decoration: none;
+    box-shadow:
+        0 0 0 3px var(--primary),
+        0 0 0 6px var(--accent),
+        0 10px 22px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes pop {
+    0%   { transform: scale(0.95); }
+    60%  { transform: translateY(-3px) scale(1.07); }
+    100% { transform: translateY(-2px) scale(1.04); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    a:focus-visible,   a:hover,
+    button:focus-visible,   button:hover,
+    input:focus-visible,   input:hover,
+    select:focus-visible,   select:hover {
+        animation: none;
+        transform: none;
+    }
+}
+    </style>
+
+    {% block styles %}{% endblock %}
+</head>
+<body>
+    <header>
+        <h1>{{ shop.name }}</h1>
+        {% include "_navbar.html" %}
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    {% include "_footer.html" %}
+</body>
+</html>

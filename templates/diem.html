@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Tính điểm học phần{% endblock %}
+
+{% block content %}
+<h2>Tính điểm học phần</h2>
+
+<div class="item">
+    <form method="post" action="{{ url_for('grade') }}" novalidate>
+        <div class="calc-row">
+            {% for key, label, weight in fields %}
+            <div class="calc-field {{ 'has-error' if errors[key] }}">
+                <label for="{{ key }}">{{ label }}</label>
+                <input type="text" inputmode="decimal" id="{{ key }}" name="{{ key }}" value="{{ form[key] }}">
+                {% if errors[key] %}<span class="error">{{ errors[key] }}</span>{% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <button type="submit" class="calc-btn">Tính điểm</button>
+    </form>
+
+    {% if result %}
+    <div class="result">{{ result }}</div>
+    {% endif %}
+</div>
+{% endblock %}

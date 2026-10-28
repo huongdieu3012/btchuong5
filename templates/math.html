@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Máy tính cơ bản{% endblock %}
+
+{% block content %}
+<h2>Máy tính cơ bản</h2>
+
+<div class="item">
+    <form method="post" action="{{ url_for('calculator') }}" novalidate>
+        <div class="calc-row">
+            <div class="calc-field {{ 'has-error' if errors.a }}">
+                <label for="a">Số thứ nhất (a)</label>
+                <input type="text" inputmode="decimal" id="a" name="a" value="{{ form.a }}">
+                {% if errors.a %}<span class="error">{{ errors.a }}</span>{% endif %}
+            </div>
+
+            <div class="calc-field {{ 'has-error' if errors.op }}">
+                <label for="op">Phép toán</label>
+                <select id="op" name="op">
+                    {% for o in operators %}
+                    <option value="{{ o }}" {{ 'selected' if form.op == o }}>{{ o }}</option>
+                    {% endfor %}
+                </select>
+                {% if errors.op %}<span class="error">{{ errors.op }}</span>{% endif %}
+            </div>
+
+            <div class="calc-field {{ 'has-error' if errors.b }}">
+                <label for="b">Số thứ hai (b)</label>
+                <input type="text" inputmode="decimal" id="b" name="b" value="{{ form.b }}">
+                {% if errors.b %}<span class="error">{{ errors.b }}</span>{% endif %}
+            </div>
+        </div>
+
+        <button type="submit" class="calc-btn">Tính</button>
+    </form>
+
+    {% if result %}
+    <div class="result">{{ result }}</div>
+    {% endif %}
+</div>
+{% endblock %}
